@@ -1,23 +1,14 @@
 
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
-
-// Register Arial (fallback to Helvetica if unavailable)
-Font.register({
-  family: 'Arial',
-  fonts: [
-    { src: 'https://fonts.gstatic.com/s/arial/v11/u7dH1Q.woff', fontWeight: 'normal' },
-    { src: 'https://fonts.gstatic.com/s/arial/v11/u7dH1Q.woff2', fontWeight: 'bold' }
-  ]
-});
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
-    fontFamily: 'Arial',
     fontSize: 12,
     padding: 20,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    fontFamily: 'Helvetica'
   },
   row: {
     flexDirection: 'row',
@@ -36,7 +27,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   diagramImage: {
-    width: 680, // 20% smaller than 850px original
+    width: 680,
     height: 300,
     objectFit: 'contain',
     marginBottom: 5
