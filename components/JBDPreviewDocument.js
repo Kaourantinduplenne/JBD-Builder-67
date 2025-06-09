@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     padding: 20,
     backgroundColor: '#fff',
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    position: 'relative'
   },
   row: {
     flexDirection: 'row',
@@ -45,53 +46,67 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     marginBottom: 4
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 20,
+    fontSize: 8,
+    fontFamily: 'Helvetica'
   }
 });
 
-export const JBDPreviewDocument = ({ operation, rig, pic, lofHazard, personnel = [], tasks = [], imageData }) => (
-  <Document>
-    <Page size="A4" orientation="landscape" style={styles.page}>
-      <View style={styles.row}>
-        <View style={styles.smallBox}>
-          <Text style={styles.title}>Operation</Text>
-          <Text>{operation}</Text>
-        </View>
-        <View style={styles.smallBox}>
-          <Text style={styles.title}>Rig</Text>
-          <Text>{rig}</Text>
-        </View>
-        <View style={styles.smallBox}>
-          <Text style={styles.title}>PIC</Text>
-          <Text>{pic}</Text>
-        </View>
-      </View>
+export const JBDPreviewDocument = ({ operation, rig, pic, lofHazard, personnel = [], tasks = [], imageData }) => {
+  const now = new Date();
+  const formatted = now.toLocaleString();
 
-      <View style={[styles.smallBox, { marginBottom: 10 }]}>
-        <Text style={styles.title}>Line Of Fire Hazard</Text>
-        <Text>{lofHazard}</Text>
-      </View>
+  return (
+    <Document>
+      <Page size="A4" orientation="landscape" style={styles.page}>
+        <View style={styles.row}>
+          <View style={styles.smallBox}>
+            <Text style={styles.title}>Operation</Text>
+            <Text>{operation}</Text>
+          </View>
+          <View style={styles.smallBox}>
+            <Text style={styles.title}>Rig</Text>
+            <Text>{rig}</Text>
+          </View>
+          <View style={styles.smallBox}>
+            <Text style={styles.title}>PIC</Text>
+            <Text>{pic}</Text>
+          </View>
+        </View>
 
-      {imageData && (
-        <View style={styles.diagramSection}>
-          <Text style={styles.title}>Diagram</Text>
-          <Image src={imageData} style={styles.diagramImage} />
+        <View style={[styles.smallBox, { marginBottom: 10 }]}>
+          <Text style={styles.title}>Line Of Fire Hazard</Text>
+          <Text>{lofHazard}</Text>
         </View>
-      )}
 
-      <View style={styles.sectionRow}>
-        <View style={styles.columnBox}>
-          <Text style={styles.title}>Personnel</Text>
-          {personnel.map((p, i) => (
-            <Text key={i}>{i + 1}. {p.name}</Text>
-          ))}
+        {imageData && (
+          <View style={styles.diagramSection}>
+            <Text style={styles.title}>Diagram</Text>
+            <Image src={imageData} style={styles.diagramImage} />
+          </View>
+        )}
+
+        <View style={styles.sectionRow}>
+          <View style={styles.columnBox}>
+            <Text style={styles.title}>Personnel</Text>
+            {personnel.map((p, i) => (
+              <Text key={i}>{i + 1}. {p.name}</Text>
+            ))}
+          </View>
+          <View style={styles.columnBox}>
+            <Text style={styles.title}>Task Steps</Text>
+            {tasks.map((t, i) => (
+              <Text key={i}>{i + 1}. {t.step} - {t.persons.join(', ')}</Text>
+            ))}
+          </View>
         </View>
-        <View style={styles.columnBox}>
-          <Text style={styles.title}>Task Steps</Text>
-          {tasks.map((t, i) => (
-            <Text key={i}>{i + 1}. {t.step} - {t.persons.join(', ')}</Text>
-          ))}
-        </View>
-      </View>
-    </Page>
-  </Document>
-);
+
+        <Text style={styles.footer}>Exported: {formatted}</Text>
+      </Page>
+    </Document>
+  );
+};
